@@ -14,6 +14,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserControllerTest {
@@ -33,8 +36,29 @@ public class UserControllerTest {
                 .get("/user")
                 .param("username", "jojo")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3));
 
+    }
+
+    @Test
+    public void whenCreateSuccess() throws Exception{
+        String content = "{\"username\": \"tom\", \"password\": \"dddd\"}";
+        mockMvc.perform(post("/user")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+        .content(content))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"));
+    }
+
+    @Test
+    public void whenUpdateSuccess() throws Exception{
+        String content = "{\"id\": \"1\", \"username\": \"tom\", \"password\": \"dddd\"}";
+        mockMvc.perform(MockMvcRequestBuilders.put("/user/1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(content))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"))
+                .andReturn().getResponse().getContentAsString();
     }
 }
