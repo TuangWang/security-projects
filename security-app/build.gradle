@@ -1,5 +1,5 @@
 //
 //
-//dependencies {
-//    compile project(':security-core')
-//}
+dependencies {
+    compile project(':security-core')
+}

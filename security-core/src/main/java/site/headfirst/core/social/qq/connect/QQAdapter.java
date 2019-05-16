@@ -29,6 +29,7 @@ public class QQAdapter implements ApiAdapter<QQ> {
 
     @Override
     public void updateStatus(QQ api, String message) {
+        // do nothing
 
     }
 }

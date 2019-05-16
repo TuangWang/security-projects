@@ -8,6 +8,9 @@
  * in the user guide at https://docs.gradle.org/4.0.1/userguide/multi_project_builds.html
  */
 
-include 'security', 'security-app', 'security-demo', 'security-web', 'security-core', ':security-core'
+//include 'security', 'security-app', 'security-demo', 'security-web', 'security-core', ':security-core'
 
+//
+
+include 'security-demo', 'security-core', 'security-web', 'security-app'
 rootProject.name = 'security-projects'
