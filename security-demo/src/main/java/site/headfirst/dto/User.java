@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.validation.constraints.NotBlank;
 
+
 public class User {
 
     public interface UserSimpleView {}
