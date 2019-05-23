@@ -1,14 +1,14 @@
 package site.headfirst.core.validate.code;
 
-import org.apache.tomcat.jni.Local;
-
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 
 public class ImageCode {
+    // 图片
     private BufferedImage image;
+    // 验证码
     private String code;
-
+    // 过期时间
     private LocalDateTime expiredTime;
 
     public ImageCode(BufferedImage image, String code, LocalDateTime expiredTime) {
