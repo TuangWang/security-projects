@@ -15,10 +15,6 @@
 //apply plugin: 'io.spring.dependency-management'
 //
 //
-//dependencies {
-//    compile project(':security-web')
-//}
-
-//dependencies {
-//    compile project(':security-web')
-//}
+dependencies {
+    compile project(':security-web')
+}

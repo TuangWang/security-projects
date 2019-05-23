@@ -13,6 +13,7 @@ public class BrowserProperties {
         this.loginPage = loginPage;
     }
 
+    // 登录后的处理方式，默认返回JSON（非跳转）
     private LoginType loginType = JSON;
 
     public LoginType getLoginType() {

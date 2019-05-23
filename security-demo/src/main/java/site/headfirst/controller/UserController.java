@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import site.headfirst.dto.User;
 import site.headfirst.dto.UserQueryCondition;
+import site.headfirst.exception.UserNotExistException;
 
 import javax.naming.Binding;
 import javax.validation.Valid;
@@ -29,13 +30,14 @@ public class UserController {
     @GetMapping("/{id:\\d+}")
     @JsonView(User.UserDetailView.class)
     public User getInfo(@PathVariable String id) {
+        System.out.println("进入User服务");
         User user = new User();
         user.setUsername("Tom");
         return user;
     }
 
     @PostMapping
-    public User create(@RequestBody  User user, BindingResult errors) {
+    public User create(@Valid @RequestBody  User user, BindingResult errors) {
         if(errors.hasErrors()) {
             errors.getAllErrors().stream().forEach(error -> System.out.println(error.getDefaultMessage()));
         }
@@ -55,6 +57,8 @@ public class UserController {
 
     @DeleteMapping("/{id:\\d+}")
     public void delete(@PathVariable String id) {
+
+        throw new UserNotExistException("1");
         // TODO;
     }
 }

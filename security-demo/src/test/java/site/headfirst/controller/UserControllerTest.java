@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MockMvcBuilder;
@@ -26,7 +27,7 @@ public class UserControllerTest {
     private MockMvc mockMvc;
 
     @Before
-    public void setup(){
+    public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
@@ -42,17 +43,17 @@ public class UserControllerTest {
     }
 
     @Test
-    public void whenCreateSuccess() throws Exception{
+    public void whenCreateSuccess() throws Exception {
         String content = "{\"username\": \"tom\", \"password\": \"dddd\"}";
         mockMvc.perform(post("/user")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-        .content(content))
+                .content(content))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"));
     }
 
     @Test
-    public void whenUpdateSuccess() throws Exception{
+    public void whenUpdateSuccess() throws Exception {
         String content = "{\"id\": \"1\", \"username\": \"tom\", \"password\": \"dddd\"}";
         mockMvc.perform(MockMvcRequestBuilders.put("/user/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -60,5 +61,15 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"))
                 .andReturn().getResponse().getContentAsString();
+    }
+
+    @Test
+    public void whenUploadSuccess() throws Exception {
+        String result = mockMvc.perform(MockMvcRequestBuilders.fileUpload("/file")
+                .file(new MockMultipartFile("file", "test.txt", "multipart/form-data", "hello upload".getBytes("UTF-8"))))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        System.out.println(result);
     }
 }
