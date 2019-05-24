@@ -26,4 +26,12 @@ public class BrowserProperties {
     public void setLoginType(LoginType loginType) {
         this.loginType = loginType;
     }
+
+    public int getRememberMeSeconds() {
+        return rememberMeSeconds;
+    }
+
+    public void setRememberMeSeconds(int rememberMeSeconds) {
+        this.rememberMeSeconds = rememberMeSeconds;
+    }
 }

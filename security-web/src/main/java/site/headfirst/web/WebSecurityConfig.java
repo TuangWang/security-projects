@@ -45,10 +45,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     }
 
     @Bean
-    public PersistentTokenRepository PersistentTokenRepository(){
+    public PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
-        tokenRepository.setCreateTableOnStartup(true);
+//        tokenRepository.setCreateTableOnStartup(true);
         return tokenRepository;
     }
 
@@ -67,6 +67,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .loginProcessingUrl("/authentication/form")
                 .successHandler(webAuthenticationSuccessHandler)
                 .failureHandler(webAuthenticationFailureHandler)
+                .and()
+                .rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(securityProperties.getWeb().getRememberMeSeconds())
                 .and()
                 .authorizeRequests()
                 .antMatchers("/authentication/require",
