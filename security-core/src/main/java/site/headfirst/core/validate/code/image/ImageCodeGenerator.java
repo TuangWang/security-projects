@@ -1,15 +1,17 @@
-package site.headfirst.core.validate.code;
+package site.headfirst.core.validate.code.image;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 import site.headfirst.core.properties.SecurityProperties;
+import site.headfirst.core.validate.code.ValidateCodeGenerator;
+import site.headfirst.core.validate.code.image.ImageCode;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class ImageValidateCodeGeneratorImp implements ValidateCodeGenerator{
+public class ImageCodeGenerator implements ValidateCodeGenerator {
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -17,7 +19,7 @@ public class ImageValidateCodeGeneratorImp implements ValidateCodeGenerator{
     static Random r = new Random();
 
     @Override
-    public ImageCode creatImageCode(ServletWebRequest request) {
+    public ImageCode generate(ServletWebRequest request) {
         // 参数可配置
         int width = ServletRequestUtils.getIntParameter(
                 request.getRequest(),

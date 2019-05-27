@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import site.headfirst.core.properties.SecurityProperties;
 import site.headfirst.core.validate.code.ValidateCodeFilter;
+import site.headfirst.core.validate.code.ValidateCodeSecurityConfig;
 import site.headfirst.web.authentication.WebAuthenticationFailureHandler;
 import site.headfirst.web.authentication.WebAuthenticationSuccessHandler;
 
@@ -44,6 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
     @Bean
     public PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
@@ -55,22 +59,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        // 添加图片过滤器到 filterChain
-        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
-        validateCodeFilter.setAuthenticationFailureHanlder(webAuthenticationFailureHandler);
-        validateCodeFilter.setSecurityProperties(securityProperties);
-        validateCodeFilter.afterPropertiesSet();
+//        // 添加图片过滤器到 filterChain
+//        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+//        validateCodeFilter.setAuthenticationFailureHandler(webAuthenticationFailureHandler);
+//        validateCodeFilter.setSecurityProperties(securityProperties);
+//        validateCodeFilter.afterPropertiesSet();
 
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+        http.apply(validateCodeSecurityConfig)
+                .and()
                 .formLogin()
                 .loginPage("/authentication/require")
                 .loginProcessingUrl("/authentication/form")
                 .successHandler(webAuthenticationSuccessHandler)
                 .failureHandler(webAuthenticationFailureHandler)
                 .and()
+                // 记住我
                 .rememberMe()
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(securityProperties.getWeb().getRememberMeSeconds())
+                .userDetailsService(userDetailsService)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/authentication/require",

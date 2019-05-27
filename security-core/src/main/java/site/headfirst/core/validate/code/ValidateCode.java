@@ -1,38 +1,25 @@
 package site.headfirst.core.validate.code;
 
-import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 
-public class ImageCode {
-    // 图片
-    private BufferedImage image;
+public class ValidateCode {
     // 验证码
     private String code;
     // 过期时间
     private LocalDateTime expiredTime;
 
-    public ImageCode(BufferedImage image, String code, LocalDateTime expiredTime) {
-        this.image = image;
+    public ValidateCode(String code, LocalDateTime expiredTime) {
         this.code = code;
         this.expiredTime = expiredTime;
     }
 
-    public ImageCode(BufferedImage image, String code, int expiredIn) {
-        this.image = image;
+    public ValidateCode(String code, int expiredIn) {
         this.code = code;
         this.expiredTime = LocalDateTime.now().plusSeconds(expiredIn);
     }
 
-    public Boolean isExpired() {
+    public boolean isExpried() {
         return LocalDateTime.now().isAfter(expiredTime);
-    }
-
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
     }
 
     public String getCode() {

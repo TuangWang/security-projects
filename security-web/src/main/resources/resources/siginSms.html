@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>短信登录</title>
+</head>
+<body>
+<h2>Login Page</h2>
+<h3>FormLogin</h3>
+<form action="/authentication/mobile" method="post">
+    <table>
+        <tr>
+            <td>手机号:</td>
+            <td><input type="text" name="mobile" value="15117901079"></td>
+        </tr>
+
+        <tr>
+            <td>短信验证码</td>
+            <td>
+                <input type="text" name="smsCode">
+                <a href="/code/sms?mobile=15117901079">发送验证码</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><button type="submit">Login</button></td>
+        </tr>
+    </table>
+
+</form>
+</body>
+</html>
