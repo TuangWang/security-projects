@@ -1,6 +1,7 @@
 package site.headfirst.code;
 
 import org.springframework.web.context.request.ServletWebRequest;
+import site.headfirst.core.validate.code.ValidateCode;
 import site.headfirst.core.validate.code.image.ImageCode;
 import site.headfirst.core.validate.code.ValidateCodeGenerator;
 
@@ -14,8 +15,7 @@ import site.headfirst.core.validate.code.ValidateCodeGenerator;
 public class DemoImageCodeGenerator implements ValidateCodeGenerator {
 
     @Override
-    public ImageCode creatImageCode(ServletWebRequest request) {
-        // 更高级图形申请器代码
+    public ImageCode generate(ServletWebRequest request) {
         return null;
     }
 }

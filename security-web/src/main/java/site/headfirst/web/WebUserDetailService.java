@@ -38,8 +38,14 @@ public class WebUserDetailService implements UserDetailsService, SocialUserDetai
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
     }
 
+    // Spring social
     @Override
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
-        return new SocialUser(userId, passwordEncoder.encode("123456"), AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+        // 没做具体操作
+        return new SocialUser(
+                userId,
+                passwordEncoder.encode("123456"),
+                AuthorityUtils.commaSeparatedStringToAuthorityList("admin")
+        );
     }
 }

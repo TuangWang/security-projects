@@ -1,10 +1,16 @@
 package site.headfirst.core.social.qq.connect;
 
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
-import org.springframework.social.oauth2.OAuth2Operations;
+import org.springframework.social.oauth2.OAuth2ServiceProvider;
 import org.springframework.social.oauth2.OAuth2Template;
 import site.headfirst.core.social.qq.api.QQ;
 import site.headfirst.core.social.qq.api.QQImpl;
+
+/**
+ * ServiceProvider构建需要获取
+ * 1. OAuth2Operations (OAuth2Template 为其一实现)
+ * 2. Api 获取用户信息
+ * */
 
 public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQ> {
 
@@ -17,11 +23,20 @@ public class QQServiceProvider extends AbstractOAuth2ServiceProvider<QQ> {
      * Create a new {@link OAuth2ServiceProvider}.
      *
      * @param oauth2Operations the OAuth2Operations template for conducting the OAuth 2 flow with the provider.
+     *
+     * 初始化provider 需要创建OAuth2Template，通过其构造函数提供四个参数
+     * - appId 应用id
+     * - appSecret 应用密码
+     * - URL_AUTHORIZE 授权页
+     * - URL_ACCESS_TOKEN  获取Token的URL
      */
     public QQServiceProvider(String appId, String appSecret) {
         super(new OAuth2Template(appId, appSecret, URL_AUTHORIZE, URL_ACCESS_TOKEN));
     }
 
+    /**
+     * 用于获取用户信息的Api
+     * */
     @Override
     public QQ getApi(String accessToken) {
         return new QQImpl(accessToken, appId);

@@ -53,6 +53,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("demo-signIn.html")
                 .addResourceLocations("classpath:/resources/");
 
+        registry.addResourceHandler("signSms.html")
+                .addResourceLocations("classpath:/resources/");
+
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }

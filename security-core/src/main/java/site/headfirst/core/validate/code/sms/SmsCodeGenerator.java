@@ -8,7 +8,7 @@ import site.headfirst.core.properties.SecurityProperties;
 import site.headfirst.core.validate.code.ValidateCode;
 import site.headfirst.core.validate.code.ValidateCodeGenerator;
 
-@Component("smsCodeGenerator")
+@Component("smsValidateCodeGenerator")
 public class SmsCodeGenerator implements ValidateCodeGenerator {
 
     @Autowired
@@ -17,7 +17,7 @@ public class SmsCodeGenerator implements ValidateCodeGenerator {
     @Override
     public ValidateCode generate(ServletWebRequest request) {
         // 获取验证码长度
-        String code = RandomStringUtils.random(securityProperties.getCode().getSms().getLength());
+        String code = RandomStringUtils.randomNumeric(securityProperties.getCode().getSms().getLength());
         return new ValidateCode(code, securityProperties.getCode().getSms().getExpiredIn());
     }
 

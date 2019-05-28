@@ -16,7 +16,7 @@ import java.util.Map;
 public class ValidateCodeController {
 
     @Autowired
-    private Map<String, ValidateCodeProcessor> validateCodeProcessors;
+    private ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
     /**
      * 创建验证码，根据不同验证码类型不同，调用不同{@link ValidateCodeProcessor}接口实现
@@ -29,6 +29,6 @@ public class ValidateCodeController {
     @GetMapping(SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/{type}")
     public void createCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String type)
             throws Exception {
-        validateCodeProcessors.get(type + "CodeProcessor").create(new ServletWebRequest(request, response));
+        validateCodeProcessorHolder.findValidateCodeProcessor(type).create(new ServletWebRequest(request, response));
     }
 }

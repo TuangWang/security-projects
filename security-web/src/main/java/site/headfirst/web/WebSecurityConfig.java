@@ -12,6 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
+import site.headfirst.core.AbstractChannelSecurityConfig;
+import site.headfirst.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import site.headfirst.core.properties.SecurityConstants;
 import site.headfirst.core.properties.SecurityProperties;
 import site.headfirst.core.validate.code.ValidateCodeFilter;
 import site.headfirst.core.validate.code.ValidateCodeSecurityConfig;
@@ -22,16 +26,10 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+public class WebSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private SecurityProperties securityProperties;
-
-    @Autowired
-    private WebAuthenticationSuccessHandler webAuthenticationSuccessHandler;
-
-    @Autowired
-    private WebAuthenticationFailureHandler webAuthenticationFailureHandler;
 
     // 数据源
     @Autowired
@@ -48,6 +46,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
+    @Autowired
+    SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Autowired
+    private SpringSocialConfigurer socialConfigurer;
+
     @Bean
     public PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
@@ -59,32 +63,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-//        // 添加图片过滤器到 filterChain
-//        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
-//        validateCodeFilter.setAuthenticationFailureHandler(webAuthenticationFailureHandler);
-//        validateCodeFilter.setSecurityProperties(securityProperties);
-//        validateCodeFilter.afterPropertiesSet();
+        applyPasswordAuthenticationConfig(http);
 
         http.apply(validateCodeSecurityConfig)
                 .and()
-                .formLogin()
-                .loginPage("/authentication/require")
-                .loginProcessingUrl("/authentication/form")
-                .successHandler(webAuthenticationSuccessHandler)
-                .failureHandler(webAuthenticationFailureHandler)
+            .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+            .apply(socialConfigurer)
                 .and()
                 // 记住我
-                .rememberMe()
+            .rememberMe()
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(securityProperties.getWeb().getRememberMeSeconds())
                 .userDetailsService(userDetailsService)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/authentication/require",
+            .authorizeRequests()
+                .antMatchers(
+                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                        SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                         securityProperties.getWeb().getLoginPage(),
-                        "/code/image").permitAll()
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*"
+                        ).permitAll()
                 .anyRequest()
                 .authenticated()
-                .and().csrf().disable();
+                .and()
+            .csrf().disable();
     }
 }

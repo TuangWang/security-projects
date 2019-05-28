@@ -5,7 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix="site.headfirst")
 public class SecurityProperties {
 
-    // web 浏览器配置
+    /**
+     *  web 浏览器配置
+     */
     private BrowserProperties web = new BrowserProperties();
 
     /**
@@ -28,5 +30,18 @@ public class SecurityProperties {
 
     public void setWeb(BrowserProperties web) {
         this.web = web;
+    }
+
+    /**
+     * Social 配置
+     * */
+    public SocialProperties social = new SocialProperties();
+
+    public SocialProperties getSocial() {
+        return social;
+    }
+
+    public void setSocial(SocialProperties social) {
+        this.social = social;
     }
 }
