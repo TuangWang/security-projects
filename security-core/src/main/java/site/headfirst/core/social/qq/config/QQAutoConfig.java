@@ -21,6 +21,9 @@ public class QQAutoConfig extends SocialConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
+    /**
+     * 该回调方法用来允许应用添加需要支持的社交网络对应的连接工厂的实现
+     * */
     @Override
     public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
         connectionFactoryConfigurer.addConnectionFactory(createConnectionFactory());

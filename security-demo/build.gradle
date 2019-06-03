@@ -16,5 +16,6 @@
 //
 //
 dependencies {
-    compile project(':security-web')
+//    compile project(':security-web')
+    compile project(':security-app')
 }

@@ -4,7 +4,10 @@ package site.headfirst.core.social;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
@@ -22,7 +25,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
     private DataSource dataSource;
 
     /**
-     * 操作用户数据库的表
+     * 操作用户数据库的表。 接口的实现对象，用来管理用户与社交网络服务提供者之间的对应关系。
      * @notice 到类 JdbcUsersConnectionRepository 的目录下，拷贝
      * JdbcUsersConnectionRepository.sql。 去数据库执行下，创建对应的表
      * */
@@ -41,6 +44,19 @@ public class SocialConfig extends SocialConfigurerAdapter {
         return new SpringSocialConfigurer();
     }
 
+    @Override
+    public UserIdSource getUserIdSource() {
+        return new UserIdSource() {
+            @Override
+            public String getUserId() {
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                if (authentication == null) {
+                    throw new IllegalStateException("Unable to get a ConnectionRepository: no user signed in");
+                }
+                return authentication.getName();
+            }
+        };
+    }
 }
 
 

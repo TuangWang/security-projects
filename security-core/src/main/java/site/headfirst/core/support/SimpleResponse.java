@@ -1,4 +1,4 @@
-package site.headfirst.web.support;
+package site.headfirst.core.support;
 
 public class SimpleResponse {
 

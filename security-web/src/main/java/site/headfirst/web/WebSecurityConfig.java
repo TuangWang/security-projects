@@ -38,10 +38,7 @@ public class WebSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+
 
     @Autowired
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;

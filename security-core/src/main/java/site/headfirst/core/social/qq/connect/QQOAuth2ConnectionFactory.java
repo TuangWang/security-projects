@@ -9,5 +9,4 @@ public class QQOAuth2ConnectionFactory extends OAuth2ConnectionFactory<QQ> {
         super(providerId, new QQServiceProvider(appId, appSecret), new QQAdapter());
     }
 
-
 }
