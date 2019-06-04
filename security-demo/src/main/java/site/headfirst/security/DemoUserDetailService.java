@@ -34,7 +34,7 @@ public class DemoUserDetailService implements UserDetailsService, SocialUserDeta
                 true,
                 true,
                 true,
-                AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+                AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
     }
 
     // Spring social
@@ -44,7 +44,7 @@ public class DemoUserDetailService implements UserDetailsService, SocialUserDeta
         return new SocialUser(
                 userId,
                 passwordEncoder.encode("123456"),
-                AuthorityUtils.commaSeparatedStringToAuthorityList("admin")
+                AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER")
         );
     }
 }

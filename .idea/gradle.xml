@@ -11,7 +11,6 @@
             <option value="$PROJECT_DIR$/security-app" />
             <option value="$PROJECT_DIR$/security-core" />
             <option value="$PROJECT_DIR$/security-demo" />
-            <option value="$PROJECT_DIR$/security-web" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />

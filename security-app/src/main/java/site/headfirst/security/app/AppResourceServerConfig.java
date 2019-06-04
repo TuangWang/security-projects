@@ -1,7 +1,9 @@
 package site.headfirst.security.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfiguration;
@@ -12,6 +14,7 @@ import org.springframework.social.security.SpringSocialConfigurer;
 import site.headfirst.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import site.headfirst.core.properties.SecurityConstants;
 import site.headfirst.core.properties.SecurityProperties;
+import site.headfirst.core.validate.code.ValidateCodeSecurityConfig;
 import site.headfirst.security.app.authentication.AppAuthenticationFailureHandler;
 import site.headfirst.security.app.authentication.AppAuthenticationSuccessHandler;
 
@@ -20,7 +23,7 @@ import site.headfirst.security.app.authentication.AppAuthenticationSuccessHandle
  * */
 @Configuration
 @EnableResourceServer
-public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
+public class AppResourceServerConfig extends ResourceServerConfigurerAdapter  {
 
     @Autowired
     SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
@@ -34,6 +37,9 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
+    @Autowired
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
@@ -43,19 +49,25 @@ public class AppResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler);
 
-        http
+        http.apply(validateCodeSecurityConfig)
+                .and()
                 .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
                 .authorizeRequests()
                 .antMatchers(
+                        // 表单登录
                         SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                        // 手机验证码登录
                         SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
-                        securityProperties.getWeb().getLoginPage(),
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*"
+                        // 图片及手机验证码请求
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
+                        "/oauth/token"
                 ).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .csrf().disable();
     }
+
+
 }

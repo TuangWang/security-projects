@@ -1,8 +1,9 @@
 package site.headfirst.core.validate.code;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class ValidateCode {
+public class ValidateCode implements Serializable {
     // 验证码
     private String code;
     // 过期时间

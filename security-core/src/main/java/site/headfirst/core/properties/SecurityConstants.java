@@ -8,9 +8,9 @@ public interface SecurityConstants {
     /**
      * 当请求需要身份认证时，默认跳转的url
      *
-     * @see SecurityController
+     * @see
      */
-    public static final String DEFAULT_UNAUTHENTICATION_URL = "/authentication/require";
+    String DEFAULT_UNAUTHENTICATION_URL = "/authentication/require";
 
     /**
      * 默认的用户名密码登录请求处理url
@@ -24,7 +24,7 @@ public interface SecurityConstants {
     /**
      * 默认登录页面
      *
-     * @see SecurityController
+     * @see
      */
     public static final String DEFAULT_LOGIN_PAGE_URL = "/imooc-signIn.html";
     /**

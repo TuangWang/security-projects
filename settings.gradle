@@ -12,5 +12,5 @@
 
 //
 
-include 'security-demo', 'security-core',  'security-app', 'security-web'
+include 'security-demo', 'security-core',  'security-app'//, 'security-web'
 rootProject.name = 'security-projects'
