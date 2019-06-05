@@ -14,7 +14,6 @@ import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import site.headfirst.core.properties.LoginType;
 import site.headfirst.core.properties.SecurityProperties;
 
 import javax.servlet.ServletException;
@@ -23,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
 
-@Component("webAuthenticationSuccessHandler")
+@Component("authenticationSuccessHandler")
 public class AppAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
 
     private Logger logger = LoggerFactory.getLogger(getClass());

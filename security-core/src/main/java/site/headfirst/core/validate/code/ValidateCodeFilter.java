@@ -27,7 +27,9 @@ import java.util.Map;
 import java.util.Set;
 
 
-
+/**
+ * The type Validate code filter.
+ */
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
@@ -63,8 +65,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
 
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeType.IMAGE);
-        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
+        //TODO: app 模式中，采用Oauth方式登录，不用验证图片。待后续添加
+//        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeType.IMAGE);
+//        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
 
         urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
         addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
@@ -85,14 +88,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.springframework.web.filter.OncePerRequestFilter#doFilterInternal(
-     * javax.servlet.http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)
-     */
+    /**
+     * 校验验证码（图形验证码，手机验证码）
+     * 在App中，将图形验证码的校验关闭了
+     * */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
@@ -100,10 +99,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
         ValidateCodeType type = getValidateCodeType(request);
         if (type != null) {
             logger.info("校验请求(" + request.getRequestURI() + ")中的验证码,验证码类型" + type);
+
             try {
                 validateCodeProcessorHolder.findValidateCodeProcessor(type)
                         .validate(new ServletWebRequest(request, response));
-                logger.info("验证码校验通过");
             } catch (ValidateCodeException exception) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, exception);
                 return;

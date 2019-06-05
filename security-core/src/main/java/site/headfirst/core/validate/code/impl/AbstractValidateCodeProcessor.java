@@ -13,11 +13,6 @@ import java.util.Map;
 
 public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> implements ValidateCodeProcessor {
 
-//    /**
-//     * 操作session的工具类
-//     */
-//    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-
     @Autowired
     ValidateCodeRepository validateCodeRepository;
 
@@ -28,13 +23,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     @Autowired
     private Map<String, ValidateCodeGenerator> validateCodeGenerators;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * com.imooc.security.core.validate.code.ValidateCodeProcessor#create(org.
-     * springframework.web.context.request.ServletWebRequest)
-     */
+
     @Override
     public void create(ServletWebRequest request) throws Exception {
         C validateCode = generate(request);
@@ -48,7 +37,6 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      * @param request
      * @return
      */
-    @SuppressWarnings("unchecked")
     private C generate(ServletWebRequest request) {
         String type = getValidateCodeType(request).toString().toLowerCase();
         String generatorName = type + ValidateCodeGenerator.class.getSimpleName();
@@ -101,7 +89,6 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         return ValidateCodeType.valueOf(type.toUpperCase());
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void validate(ServletWebRequest request) {
 

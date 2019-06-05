@@ -11,8 +11,8 @@ import site.headfirst.core.properties.SecurityProperties;
 @EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityCoreConfig {
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
 }
