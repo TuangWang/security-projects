@@ -12,5 +12,8 @@
 
 //
 
-include 'security-demo', 'security-core',  'security-app'//, 'security-web'
+include 'security-demo', 'security-core',  'security-app' //, 'security-web'
+include 'post'
 rootProject.name = 'security-projects'
+include 'trade-center'
+

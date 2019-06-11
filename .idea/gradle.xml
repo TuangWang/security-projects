@@ -8,9 +8,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/post" />
             <option value="$PROJECT_DIR$/security-app" />
             <option value="$PROJECT_DIR$/security-core" />
             <option value="$PROJECT_DIR$/security-demo" />
+            <option value="$PROJECT_DIR$/trade-center" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />

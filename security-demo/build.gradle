@@ -1,4 +1,6 @@
 
 dependencies {
     compile project(':security-app')
+    compile project(':post')
+    compile project(':trade-center')
 }
