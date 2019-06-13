@@ -29,19 +29,30 @@ subprojects {
     }
     
     dependencies {
+        
+        // Basic
+        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        
+        // oauth2 & security
         implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.1.2.RELEASE'
         implementation 'org.springframework.session:spring-session:1.3.5.RELEASE'
         implementation 'org.slf4j:slf4j-api:1.7.24'
-        implementation 'org.springframework.boot:spring-boot-starter'
-        implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.social:spring-social-core:1.1.6.RELEASE'
         implementation 'org.springframework.social:spring-social-web:1.1.6.RELEASE'
         implementation 'org.springframework.social:spring-social-security:1.1.6.RELEASE'
         implementation 'org.springframework.social:spring-social-config:1.1.6.RELEASE'
         implementation 'org.springframework.boot:spring-boot-starter-security'
         implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+        // mysql
+        implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.1'
+        implementation 'com.alibaba:druid-spring-boot-starter:1.1.17'
+        implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.2.12'
+        runtimeOnly 'mysql:mysql-connector-java'
+
         compile('org.springframework.boot:spring-boot-starter-data-redis')
-        compile('org.springframework.boot:spring-boot-starter-jdbc')
         compile('org.springframework.boot:spring-boot-starter-aop')
         implementation 'commons-lang:commons-lang:2.6'
         // https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
@@ -50,7 +61,7 @@ subprojects {
         compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
         implementation 'commons-collections:commons-collections:3.2.2'
         implementation 'commons-beanutils:commons-beanutils:1.9.3'
-        runtime('mysql:mysql-connector-java')
+
         testCompile 'junit:junit:4.12'
         testCompile('org.springframework.boot:spring-boot-starter-test')
         // https://mvnrepository.com/artifact/com.github.tomakehurst/wiremock
@@ -61,81 +72,4 @@ subprojects {
 
     sourceCompatibility = 1.8
 }
-
-
-//subprojects {
-//
-//    buildscript {
-//        repositories {
-//            maven {
-//                url "https://plugins.gradle.org/m2/"
-//            }
-//        }
-//        dependencies {
-//            classpath "org.springframework.boot:spring-boot-gradle-plugin:2.1.4.RELEASE"
-//        }
-//    }
-//
-//    apply plugin: 'java'
-//    apply plugin: 'eclipse'
-//    apply plugin: 'org.springframework.boot'
-//    apply plugin: 'io.spring.dependency-management'
-//
-//    ext {
-//        springBootVersion = '2.0.2.RELEASE'
-//    }
-//
-//    repositories {
-//        mavenCentral()
-//    }
-//
-//    dependencies {
-//        compile 'org.slf4j:slf4j-api:1.7.24'
-//        testCompile 'junit:junit:4.12'
-//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-//    }
-//
-//    sourceCompatibility = 1.8
-//}
-
-
-
-
-
-//
-//group = "bbs.xqdxc"
-//version = "0.0.1-SNAPSHOT"
-//sourceCompatibility = "1.8"
-//
-//repositories {
-//    mavenCentral()
-//    maven { url  "https://repo.spring.io/milestone" }
-//}
-//
-//ext {
-//    springCloudVersion = 'Finchley.RC2'
-//    headfirstSecurityVersion = '1.0.0-SNAPSHOT'
-//}
-//
-//// In this section you declare the dependencies for your production and test code
-//dependencies {
-//    // The production code uses the SLF4J logging API at compile time
-//    compile 'org.slf4j:slf4j-api:1.7.24'
-//    compile('org.springframework.boot:spring-boot-starter-security')
-//    compile('org.springframework.boot:spring-boot-starter-web')
-//    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.8.0'
-//    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.8.0'
-//    compile ':spring-cloud-starter-config'
-//    compile ':spring-cloud-starter-eureka'
-//    testCompile('org.springframework.boot:spring-boot-starter-test')
-//    testCompile('org.springframework.security:spring-security-test')
-//
-//    testCompile 'junit:junit:4.12'
-//}
-//
-//dependencyManagement {
-//    imports {
-//        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-//    }
-//}
 
